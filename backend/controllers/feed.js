@@ -5,9 +5,9 @@ exports.getPosts = (req, res, next) => {
         _id: '1',
         title: 'First Post',
         content: 'This is the first post!',
-        imageUrl: 'images/duck.jpg',
+        imageUrl: 'images/fightclub.jpg',
         creator: {
-          name: 'Maximilian'
+          name: 'Edge'
         },
         createdAt: new Date()
       }
