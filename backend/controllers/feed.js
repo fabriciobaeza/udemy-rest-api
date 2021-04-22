@@ -13,9 +13,9 @@ exports.getPosts = async (req, res, next) => {
   try {
     const totalItems = await Post.find().countDocuments();
     const posts = await Post.find()
+      .populate("creator")
       .skip((currentPage - 1) * perPage)
       .limit(perPage);
-
     res.status(200).json({
       message: "Fetched posts successfully.",
       posts: posts,
@@ -54,10 +54,12 @@ exports.createPost = async (req, res, next) => {
   try {
     await post.save();
     const user = await User.findById(req.userId);
-
     user.posts.push(post);
     await user.save();
-    io.getIO().emit("posts", { action: "create", post: post });
+    io.getIO().emit("posts", {
+      action: "create",
+      post: { ...post._doc, creator: { _id: req.userId, name: user.name } },
+    });
     res.status(201).json({
       message: "Post created successfully!",
       post: post,
