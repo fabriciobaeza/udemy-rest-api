@@ -14,6 +14,7 @@ exports.getPosts = async (req, res, next) => {
     const totalItems = await Post.find().countDocuments();
     const posts = await Post.find()
       .populate("creator")
+      .sort({ createdAt: -1 })
       .skip((currentPage - 1) * perPage)
       .limit(perPage);
     res.status(200).json({
@@ -111,7 +112,7 @@ exports.updatePost = async (req, res, next) => {
     throw error;
   }
   try {
-    const post = await (await Post.findById(postId)).populate('creator');
+    const post = await (await Post.findById(postId)).populate("creator");
     if (!post) {
       const error = new Error("Could not find post.");
       error.statusCode = 404;
