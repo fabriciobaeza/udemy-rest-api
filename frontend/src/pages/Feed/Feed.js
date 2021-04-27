@@ -62,6 +62,7 @@ class Feed extends Component {
             _id
             title
             content
+            imageUrl
             creator {
               name
             }
@@ -72,12 +73,13 @@ class Feed extends Component {
       }
       `,
     };
-    fetch("http://localhost:8080/graphql" + page, {
+    fetch("http://localhost:8080/graphql", {
       method: "POST",
       headers: {
         Authorization: "Bearer " + this.props.token,
         "Content-Type": "application/json",
       },
+      body: JSON.stringify(graphqlQuery),
     })
       .then((res) => {
         return res.json();
@@ -155,7 +157,7 @@ class Feed extends Component {
     fetch("http://localhost:8080/post-image", {
       method: "PUT",
       headers: {
-        Authorization: "Bearer " + this.props.token
+        Authorization: "Bearer " + this.props.token,
       },
       body: formData,
     })
