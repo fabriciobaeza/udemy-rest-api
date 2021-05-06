@@ -75,7 +75,7 @@ app.use(
   graphqlHttp({
     schema: graphqlSchema,
     rootValue: graphqlResolver,
-    graphiql: true,
+    graphql: true,
     formatError(err) {
       if (!err.originalError) {
         return err;
